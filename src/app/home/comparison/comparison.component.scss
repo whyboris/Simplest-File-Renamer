@@ -1,0 +1,38 @@
+.whiteout {
+  background: white;
+  display: block;
+  height: 18px;
+  left: -100vw;
+  min-width: 200vw;
+  opacity: 0.7;
+  position: absolute;
+  width: 200vw;
+}
+
+.icon {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+
+.show-error {
+
+  .error-text {
+    background: white;
+    border-radius: 5px;
+    border: 1px solid gray;
+    display: none;
+    padding: 5px 10px;
+    transform: translate(-10px, -3px);
+    position: absolute;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 21;
+  }
+
+  &:hover {
+    .error-text {
+      display: block;
+    }
+  }
+}

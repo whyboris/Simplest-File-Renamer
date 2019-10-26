@@ -1,0 +1,25 @@
+<div *ngFor="let icon of files">
+
+  <ng-container *ngIf="icon.result === 'error'; else regular">
+
+    <div class="icon show-error" *ngIf="icon.result === 'error'">
+      <app-icon [icon]="'icon-error'"></app-icon>
+      <span class="error-text">
+        {{ icon.error }}
+      </span>
+    </div>
+
+  </ng-container>
+
+  <ng-template #regular>
+
+    <div class="whiteout" *ngIf="icon.result === 'unchanged'">
+      <app-icon class="icon" [icon]="'icon-equals'"></app-icon>
+    </div>
+
+    <div class="icon">
+      <app-icon [icon]="getIcon(icon)"></app-icon>
+    </div>
+
+  </ng-template>
+</div>

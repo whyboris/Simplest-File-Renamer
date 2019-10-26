@@ -1,0 +1,141 @@
+<div
+  #scrollOriginal
+  class="rename-container"
+  (mouseenter)="mouseEntered()"
+  (mouseleave)="mouseLeft()"
+  [ngStyle]="{
+    opacity: mode === 'edit' ? 1 : 0
+  }"
+>
+
+  <div #editor1>
+  </div>
+
+  <div #editor2>
+  </div>
+
+  <app-comparison
+    class="compare-icons"
+    [files]="compareIcons"
+  ></app-comparison>
+
+</div>
+
+<div
+  #scrollDiff
+  class="rename-container rename-overlay animated"
+  [ngStyle]="{
+    opacity: hover ? 0 : 1,
+    'pointer-events': mode === 'edit' ? 'none' : 'all'
+  }"
+>
+
+  <div #editor3>
+  </div>
+
+  <div #editor4>
+  </div>
+
+  <app-comparison
+    class="compare-icons"
+    [files]="compareIcons"
+  ></app-comparison>
+
+</div>
+
+<div class="fade-out fade-center-left">
+</div>
+
+<div class="fade-out fade-center-right">
+</div>
+
+<div class="fade-out fade-right">
+</div>
+
+<div class="instructions" *ngIf="sourceOfTruth.length === 0">
+  Drag & Drop files here
+</div>
+
+<button
+  *ngIf="mode === 'edit'"
+  class="button-left"
+  (click)="addFile()"
+  title="Add files"
+>
+  <app-icon [icon]="'icon-add'"></app-icon>
+</button>
+
+<button
+  *ngIf="mode === 'edit'"
+  class="button-middle"
+  (click)="openTXT()"
+  [disabled]="sourceOfTruth.length === 0"
+  title="Open in text editor"
+>
+  <app-icon [icon]="'icon-edit'"></app-icon>
+</button>
+
+<button
+  *ngIf="mode === 'edit'"
+  class="button-right"
+  (click)="renameStuff()"
+  [disabled]="sourceOfTruth.length === 0"
+  title="Rename"
+>
+  <app-icon [icon]="'icon-checkmark'"></app-icon>
+</button>
+
+<button
+  *ngIf="mode === 'review'"
+  style="left: 30px;"
+  (click)="restart()"
+  title="Restart"
+>
+  <app-icon [icon]="'icon-restart'"></app-icon>
+</button>
+
+
+<div
+  class="rename-report"
+  *ngIf="mode === 'review'"
+>
+
+  <div class="report-item">
+    <span class='report-number'>
+      {{ finalReport.renamed }}
+    </span>
+    <div class='report-icon'>
+      <app-icon [icon]="'icon-checkmark'"></app-icon>
+    </div>
+    <span class="report-text">
+      renamed
+    </span>
+  </div>
+
+  <div class="report-item">
+    <span class='report-number'>
+      {{ finalReport.unchanged }}
+    </span>
+    <div class='report-icon'>
+      <app-icon [icon]="'icon-equals'"></app-icon>
+    </div>
+    <span class="report-text">
+      unchanged
+    </span>
+  </div>
+
+
+  <div class="report-item">
+    <span class='report-number'>
+      {{ finalReport.failed }}
+    </span>
+    <div class='report-icon'>
+      <app-icon [icon]="'icon-error'"></app-icon>
+    </div>
+    <span class="report-text">
+      failed
+    </span>
+  </div>
+</div>
+
+<app-svg-definitions></app-svg-definitions>
