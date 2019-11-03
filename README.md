@@ -4,7 +4,7 @@ Rename your files with your favorite text editor, making use of all your 1337 ke
 
 ## About
 
-*Video Hub App* was created by [Boris Yakubchik](https://videohubapp.com/about.html). It uses _Angular_ and _Electron_.
+*Simplest File Renamer* was created by [Boris Yakubchik](https://videohubapp.com/about.html). It uses _Angular_ and _Electron_.
 
 ## License
 
