@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, ipcRenderer } from 'electron';
+import { app, BrowserWindow, screen, ipcRenderer, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -10,6 +10,8 @@ function createWindow() {
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
+  Menu.setApplicationMenu(null);
 
   // Create the browser window.
   win = new BrowserWindow({
