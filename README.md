@@ -8,7 +8,7 @@ Rename your files with your favorite text editor, making use of all your 1337 ke
 
 ## License
 
-This software was built on top of [`angular-electron`](https://github.com/maximegris/angular-electron) by [Maxime GRIS](https://github.com/maximegris). It carries an _MIT_ license (see the _LICENSE_ file).
+This software was built on top of [`angular-electron`](https://github.com/maximegris/angular-electron) by [Maxime GRIS](https://github.com/maximegris). It carries an [_MIT_ license](LICENSE).
 
 ## Development
 
