@@ -17,7 +17,7 @@ export class HelperService {
       const op = diff.ops[i];
       if (op.hasOwnProperty('insert')) {
         op.attributes = {
-          background: '#cce8cc', // green
+          background: '#cce8cc', // COLOR green
           color: '#003700'
         };
       }
@@ -53,7 +53,7 @@ export class HelperService {
         delete op.delete;
         // but color it red and struckthrough
         op.attributes = {
-          background: '#e8cccc',
+          background: '#e8cccc',  // COLOR red
           color: '#370000',
           strike: true
         };

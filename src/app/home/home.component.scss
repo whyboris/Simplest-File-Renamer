@@ -21,6 +21,7 @@ button {
   bottom: 20px;
   cursor: pointer;
   font-family: monospace;
+  height: 40px;
   max-height: 50px;
   outline: none;
   padding: 4px;
@@ -204,6 +205,7 @@ button {
     position: relative;
 
     .report-number {
+      font-family: monospace;
       position: absolute;
       right: calc(100% + 10px);
     }
