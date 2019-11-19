@@ -31,4 +31,4 @@ This software would not be possible without the tremendous work by other people:
  - [Quill](https://github.com/quilljs/quill)
  - [electron-builder](https://github.com/electron-userland/electron-builder)
 
-A huge personal _thank you_ to [Percipient24](https://github.com/Percipient24) for always helping me when I ask for coding help, and for the [code](https://codepen.io/percipient24/pen/eEBOjG) that inspired this project 🙇‍♂️
+A huge personal _thank you_ to [Percipient24](https://github.com/Percipient24) for always helping me when I ask for coding help, and for his [code](https://codepen.io/percipient24/pen/eEBOjG) that inspired this project 🙇‍♂️
