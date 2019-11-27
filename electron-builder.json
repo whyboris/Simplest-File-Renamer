@@ -28,7 +28,7 @@
     ]
   },
   "mac": {
-    "icon": "src/assets/icons.icns",
+    "icon": "src/assets/favicon.icns",
     "target": [
       "dmg"
     ]
