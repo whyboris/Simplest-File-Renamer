@@ -20,9 +20,7 @@
               "src/assets",
               "src/favicon.ico",
               "src/favicon.png",
-              "src/favicon.icns",
-              "src/favicon.256x256.png",
-              "src/favicon.512x512.png"
+              "src/favicon.icns"
             ],
             "styles": [
               "src/styles.scss"
