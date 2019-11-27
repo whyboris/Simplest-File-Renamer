@@ -8,6 +8,8 @@ Rename your files with your favorite text editor, making use of all your 1337 ke
 
 *Simplest File Renamer* was created by [Boris Yakubchik](https://videohubapp.com/about.html). It uses _Angular_ and _Electron_.
 
+Works on *Windows*, *Mac*, and *Linux* :tada:
+
 ## License
 
 This software was built on top of [`angular-electron`](https://github.com/maximegris/angular-electron) by [Maxime GRIS](https://github.com/maximegris). It carries an [_MIT_ license](LICENSE).
