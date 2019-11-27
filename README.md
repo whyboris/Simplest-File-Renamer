@@ -2,6 +2,8 @@
 
 Rename your files with your favorite text editor, making use of all your 1337 keyboard shortcuts and skills 😉
 
+![image](https://user-images.githubusercontent.com/17264277/69740803-0042a680-1108-11ea-9821-bc7c7f8e522d.png)
+
 ## About
 
 *Simplest File Renamer* was created by [Boris Yakubchik](https://videohubapp.com/about.html). It uses _Angular_ and _Electron_.
