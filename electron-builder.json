@@ -24,7 +24,7 @@
   "win": {
     "icon": "src/assets/favicon",
     "target": [
-      "portable"
+      "nsis"
     ]
   },
   "mac": {
