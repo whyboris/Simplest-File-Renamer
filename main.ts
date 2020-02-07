@@ -1,24 +1,34 @@
-import { app, BrowserWindow, screen, ipcRenderer, Menu } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+
+const settings = require('electron-settings');
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+interface WindowSettings {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 function createWindow() {
 
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  const windowSettings: WindowSettings = getWindowSettings();
+
+  console.log(windowSettings);
 
   Menu.setApplicationMenu(null);
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: size.width / 2 - 300,
-    y: size.height / 2 - 150,
-    width: 600,
-    height: 300,
+    x: windowSettings.x,
+    y: windowSettings.y,
+    width: windowSettings.width,
+    height: windowSettings.height,
     center: true,
     minWidth: 400,
     minHeight: 200,
@@ -50,6 +60,12 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  win.on('close', () => {
+    const windowSizeAndPosition: WindowSettings = win.getBounds();
+
+    settings.set('app-location', windowSizeAndPosition);
   });
 
 }
@@ -246,3 +262,36 @@ ipc.on('app-back-in-focus', function (event): void {
   });
 
 });
+
+/**
+ * Determine app location and size based on last location
+ * or default to something good.
+ */
+function getWindowSettings(): WindowSettings {
+
+  const electronScreen = screen;
+
+  const desktopSize = electronScreen.getPrimaryDisplay().workAreaSize; // { height: number, width: number }
+
+  const screenWidth = desktopSize.width;
+  const screenHeight = desktopSize.height;
+
+  const defaultSize: WindowSettings = {
+    x: desktopSize.width / 2 - 300,
+    y: desktopSize.height / 2 - 150,
+    width: 600,
+    height: 300,
+  };
+
+  const savedSettings = settings.get('app-location');
+
+  // Make sure the app isn't off-screen (perhaps due to monitor change)
+  if (    savedSettings
+       && savedSettings.x < screenWidth - 200
+       && savedSettings.y < screenHeight - 200
+      ) {
+    return savedSettings;
+  } else {
+    return defaultSize;
+  }
+}
