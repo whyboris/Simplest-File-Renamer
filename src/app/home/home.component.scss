@@ -125,10 +125,11 @@ button {
 }
 
 .compare-icons {
-  left: 47%;
+  left: 50vw;
   line-height: 19px;
   position: absolute;
   top: 17px;
+  transform: translate(-20px, 0);
   z-index: 4;
 }
 
@@ -194,10 +195,11 @@ button {
 }
 
 .rename-report {
-  bottom: 8px;
-  left: 46%;
+  bottom: 9px;
+  left: 50vw;
   line-height: 20px;
   position: absolute;
+  transform: translate(-20px, 0);
 
   .report-item {
     height: 20px;
