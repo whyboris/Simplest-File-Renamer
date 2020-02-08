@@ -221,10 +221,9 @@ button {
 
 .rename-report {
   bottom: 9px;
-  left: 50vw;
+  left: calc(50vw - 8px); // coincides with comparison icons column (.compare-icons)
   line-height: 20px;
   position: absolute;
-  transform: translate(-8, 0); // TODO -- maybe remove once done with everything
 
   .report-item {
     height: 20px;
