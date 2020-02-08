@@ -34,6 +34,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
   editingInTXT = false;
   hover = false;
 
+  userUpdatedText = false; // used for deciding whether to `findDiff` on hover in/out
+
   compareIcons: RenamedObject[] | RenameObject[] = [];
   sourceOfTruth: SourceOfTruth[] = [];
 
@@ -54,6 +56,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   handleKeyboardEvent(event: KeyboardEvent) {
     // if editor has selection & user is typing, hide the diff overlay
     if (this.mode === 'edit' && this.editor2.getSelection() !== null) {
+      this.userUpdatedText = true;
       this.hover = true;
     }
   }
@@ -81,15 +84,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
   // tslint:disable-next-line: member-ordering
   keyBindings: any = {
     tab: {
-      key: 9,
+      key: 9, // Tab
       handler: this.toggler,
     },
     enter: {
-      key: 13,
+      key: 13, // Enter
       handler: this.toggler,
     },
     esc: {
-      key: 27,
+      key: 27, // Escape
       handler: this.toggler,
     }
   };
@@ -258,6 +261,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.editor3.setContents(deleteOnly);
     this.editor4.setContents(addOnly);
 
+    this.userUpdatedText = false;
+
     this.compareIcons = this.getNewSourceOfTruth();
   }
 
@@ -280,7 +285,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   mouseLeft() {
     if (this.mode === 'edit') {
 
-      this.findDiff();
+      if (this.userUpdatedText) {
+        this.findDiff();
+      }
 
       const scrollTop: number = this.scrollOriginal.nativeElement.scrollTop;
       const scrollLeft: number = this.editorNode2.nativeElement.scrollLeft;
