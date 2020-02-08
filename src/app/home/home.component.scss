@@ -64,28 +64,23 @@ button {
   right: 20px;
 }
 
-.ql-container {
-  box-sizing: border-box;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  position: absolute;
-  top: 0;
-  width: 50%;
-}
-
 ::ng-deep .ql-editor {
   background: white;
   font-family: monospace;
   line-height: 6px;
+  margin: 0;
   outline: none;
-  overflow-y: scroll;
-  padding: 10px 20px;
-  width: 2000px;
+  padding: 10px 0;
 
   p {
     white-space: nowrap;
+
+    &:after {
+      border: 1px solid white; // hack to have space at the end of the longest line when x-scrolling
+      content: '';
+      position: absolute;
+      width: 30px;
+    }
   }
 }
 
@@ -101,22 +96,39 @@ button {
 .rename-container {
   background: white;
   border-bottom: 1px solid $gray-30;
+  box-sizing: border-box;
   height: calc(100vh - 80px);
   left: 0;
   margin: 0;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
   padding: 0;
   position: absolute;
-  width: 100%;
+  width: 100vw;
+
+  .ql-container {
+    box-sizing: border-box;
+    height: calc(100vh - 81px);
+    left: 0;
+    margin: 0;
+    overflow-x: auto;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: calc(50vw - 30px);
+  }
 
   & :nth-child(1) {
+    overflow: hidden; // hide scrollbars
+    padding-bottom: 20px; // compensate for hidden scrollbar
     pointer-events: none;
+    transform: translate(20px, 0);
     user-select: none;
   }
 
   & :nth-child(2) {
     left: 50%;
+    transform:translateX(30px); // compensate .ql-container.width
   }
 }
 
@@ -129,13 +141,13 @@ button {
   line-height: 19px;
   position: absolute;
   top: 17px;
-  transform: translate(-20px, 0);
+  transform: translate(-8, 0); // TODO -- maybe remove once done with everything
   z-index: 4;
 }
 
 .fade-out {
   // border: 1px solid red;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 98px);
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -145,19 +157,13 @@ button {
 .fade-center-left {
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), white);
   width: 30px;
-  right: calc(50% + 15px);
-}
-
-.fade-center-right {
-  background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-  left: calc(50% - 15px);
-  width: 30px;
+  right: 50vw;
 }
 
 .fade-right {
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), white);
   width: 30px;
-  right: 13px;
+  right: 17px;
 }
 
 .animated {
@@ -183,14 +189,14 @@ button {
 }
 
 .comparison {
-  top: 100px;
-  left: 100px;
   background-color: #EEEEEE;
-  height: 300px;
-  position: absolute;
-  width: 300px;
   border-radius: 20px;
   border: 5px solid red;
+  height: 300px;
+  left: 100px;
+  position: absolute;
+  top: 100px;
+  width: 300px;
   z-index: 10;
 }
 
@@ -199,7 +205,7 @@ button {
   left: 50vw;
   line-height: 20px;
   position: absolute;
-  transform: translate(-20px, 0);
+  transform: translate(-8, 0); // TODO -- maybe remove once done with everything
 
   .report-item {
     height: 20px;

@@ -30,6 +30,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
   editor3: Quill;
   editor4: Quill;
 
+  nodeRef1: HTMLElement;
+  nodeRef2: HTMLElement;
+  nodeRef3: HTMLElement;
+  nodeRef4: HTMLElement;
+
   appInFocus = true;
   editingInTXT = false;
   hover = false;
@@ -78,6 +83,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   // needs to be above `keyBindings` else maybe it doesn't work?
   toggler = () => {
     this.findDiff();
+    this.scrollToCorrectPositions();
     this.hover = !this.hover;
   }
 
@@ -103,6 +109,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   ) { }
 
   ngOnInit() {
+
+    // Only contains event listeners for node messages
+
     this.electronService.ipcRenderer.send('just-started');
 
     this.electronService.ipcRenderer.on('file-chosen', (event, filePath: string[]) => {
@@ -181,6 +190,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.editor2 = new QuillRef.Quill(this.editorNode2.nativeElement, defaultOptions);
     this.editor3 = new QuillRef.Quill(this.editorNode3.nativeElement, readOnly);
     this.editor4 = new QuillRef.Quill(this.editorNode4.nativeElement, readOnly);
+
+    this.nodeRef1 = this.editorNode1.nativeElement;
+    this.nodeRef2 = this.editorNode2.nativeElement;
+    this.nodeRef3 = this.editorNode3.nativeElement;
+    this.nodeRef4 = this.editorNode4.nativeElement;
   }
 
   /**
@@ -268,6 +282,12 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   // ======================= UI INTERRACTIONS ======================================================
 
+
+  updateScroll() {
+    this.nodeRef1.scrollLeft = this.nodeRef2.scrollLeft;
+    this.nodeRef1.scrollTop = this.nodeRef2.scrollTop;
+  }
+
   /**
    * Update UI after mouse enters the text editing area
    */
@@ -297,6 +317,17 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
       this.hover = false;
     }
+
+    this.scrollToCorrectPositions();
+
+  }
+
+  scrollToCorrectPositions() {
+    this.nodeRef3.scrollLeft = this.nodeRef2.scrollLeft;
+    this.nodeRef3.scrollTop = this.nodeRef2.scrollTop;
+
+    this.nodeRef4.scrollLeft = this.nodeRef2.scrollLeft;
+    this.nodeRef4.scrollTop = this.nodeRef2.scrollTop;
   }
 
   /**

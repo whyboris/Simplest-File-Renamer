@@ -11,7 +11,7 @@
   <div #editor1>
   </div>
 
-  <div #editor2>
+  <div id="scrollSelector" #editor2 (scroll)="updateScroll()">
   </div>
 
   <app-comparison
@@ -47,9 +47,6 @@
 <!-- FADE OUT AROUND COMPARISON ICONS -->
 
 <div class="fade-out fade-center-left">
-</div>
-
-<div class="fade-out fade-center-right">
 </div>
 
 <div class="fade-out fade-right">
