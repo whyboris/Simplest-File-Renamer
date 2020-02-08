@@ -1,33 +1,34 @@
 <div
-  #scrollOriginal
   class="rename-container"
   (mouseenter)="mouseEntered()"
   (mouseleave)="mouseLeft()"
-  [ngStyle]="{
-    opacity: mode === 'edit' ? 1 : 0
-  }"
 >
 
   <div #editor1>
   </div>
 
-  <div #editor2>
+  <div
+    #editor2
+    id="scrollSelector"
+    (scroll)="updateScroll()"
+    [ngStyle]="{ 'user-select': mode === 'review' ? 'none' : 'initial' }"
+  >
   </div>
 
-  <app-comparison
+  <div
+    #comparison1
     class="compare-icons"
-    [files]="compareIcons"
-  ></app-comparison>
+  >
+    <app-comparison
+      [files]="compareIcons"
+    ></app-comparison>
+  </div>
 
 </div>
 
 <div
-  #scrollDiff
   class="rename-container rename-overlay animated"
-  [ngStyle]="{
-    opacity: hover ? 0 : 1,
-    'pointer-events': mode === 'edit' ? 'none' : 'all'
-  }"
+  [ngStyle]="{ opacity: mode === 'review' ? 0 : (hover ? 0 : 1) }"
 >
 
   <div #editor3>
@@ -36,20 +37,21 @@
   <div #editor4>
   </div>
 
-  <app-comparison
+  <div
+    #comparison2
     class="compare-icons"
-    [files]="compareIcons"
-  ></app-comparison>
+  >
+    <app-comparison
+      [files]="compareIcons"
+    ></app-comparison>
+  </div>
 
 </div>
 
 <!-- =========================================================================================== -->
-<!-- FADE OUT AROUND COMPARISON ICONS -->
+<!-- FADE OUT OVERFLOWING TEXT -->
 
 <div class="fade-out fade-center-left">
-</div>
-
-<div class="fade-out fade-center-right">
 </div>
 
 <div class="fade-out fade-right">

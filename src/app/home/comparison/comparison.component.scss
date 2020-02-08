@@ -1,12 +1,12 @@
 .whiteout {
   background: white;
   display: block;
-  height: 18px;
+  height: 19px;
   left: -100vw;
-  min-width: 200vw;
+  min-width: calc(150vw - 9px);
   opacity: 0.7;
   position: absolute;
-  width: 200vw;
+  width: calc(150vw - 9px);
 }
 
 .icon {
