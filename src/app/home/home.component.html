@@ -7,7 +7,12 @@
   <div #editor1>
   </div>
 
-  <div id="scrollSelector" #editor2 (scroll)="updateScroll()">
+  <div
+    #editor2
+    id="scrollSelector"
+    (scroll)="updateScroll()"
+    [ngStyle]="{ 'user-select': mode === 'review' ? 'none' : 'initial' }"
+  >
   </div>
 
   <div
@@ -44,7 +49,7 @@
 </div>
 
 <!-- =========================================================================================== -->
-<!-- FADE OUT AROUND COMPARISON ICONS -->
+<!-- FADE OUT OVERFLOWING TEXT -->
 
 <div class="fade-out fade-center-left">
 </div>

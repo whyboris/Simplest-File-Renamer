@@ -139,7 +139,7 @@ button {
 
   & :nth-child(1) {
     overflow: hidden; // hide scrollbars
-    padding-bottom: 20px; // compensate for hidden scrollbar
+    padding-bottom: 10px; // compensate for hidden scrollbar
     pointer-events: none;
     transform: translate(20px, 0);
     user-select: none;
@@ -205,18 +205,6 @@ button {
   user-select: none;
   width: 90%;
   z-index: 6;
-}
-
-.comparison {
-  background-color: #EEEEEE;
-  border-radius: 20px;
-  border: 5px solid red;
-  height: 300px;
-  left: 100px;
-  position: absolute;
-  top: 100px;
-  width: 300px;
-  z-index: 10;
 }
 
 .rename-report {
