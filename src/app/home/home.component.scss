@@ -133,15 +133,15 @@ button {
 }
 
 .rename-overlay {
+  pointer-events: none !important;
   user-select: none;
 }
 
 .compare-icons {
-  left: 50vw;
+  left: calc(50vw - 8px);
   line-height: 19px;
   position: absolute;
   top: 17px;
-  transform: translate(-8, 0); // TODO -- maybe remove once done with everything
   z-index: 4;
 }
 

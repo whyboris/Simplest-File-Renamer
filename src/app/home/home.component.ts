@@ -22,8 +22,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
   @ViewChild('editor3', { static: true }) editorNode3: ElementRef; // input overlay (deletions)
   @ViewChild('editor4', { static: true }) editorNode4: ElementRef; // output overlay (additions)
 
-  @ViewChild('scrollOriginal', { static: true }) scrollOriginal: ElementRef; // holds editor 1 & 2
-  @ViewChild('scrollDiff',     { static: true }) scrollDiff: ElementRef;     // holds editor 3 & 4
+  @ViewChild('comparison1', { static: true }) comparison1: ElementRef; // middle bar with comparison icons
+  @ViewChild('comparison2', { static: true }) comparison2: ElementRef; // middle bar with comparison icons
 
   editor1: Quill;
   editor2: Quill;
@@ -34,6 +34,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   nodeRef2: HTMLElement;
   nodeRef3: HTMLElement;
   nodeRef4: HTMLElement;
+
+  compare1: HTMLElement;
+  compare2: HTMLElement;
 
   appInFocus = true;
   editingInTXT = false;
@@ -56,6 +59,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
   errorModalShowing = false;
   numberOfSuccesses: number = 0;
   allErrors: any = {};
+
+  @HostListener('document:keydown', ['$event'])
+  handleArrowKeys(event: KeyboardEvent) {
+    // stop showing diff if user starts to navigate with arrows
+    if (['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(event.key)) {
+      this.hover = true;
+    }
+  }
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -129,8 +140,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
     });
 
     this.electronService.ipcRenderer.on('renaming-report', (event, report: RenamedObject[]) => {
+
       this.mode = 'review';
+
+      this.editor1.setContents(this.editor3.getContents());
+      this.editor2.setContents(this.editor4.getContents());
       this.editor2.disable(); // sets to `readOnly`
+
       this.compareIcons = report;
 
       this.finalReport = {
@@ -195,6 +211,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.nodeRef2 = this.editorNode2.nativeElement;
     this.nodeRef3 = this.editorNode3.nativeElement;
     this.nodeRef4 = this.editorNode4.nativeElement;
+
+    this.compare1 = this.comparison1.nativeElement;
+    this.compare2 = this.comparison2.nativeElement;
   }
 
   /**
@@ -284,8 +303,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
 
   updateScroll() {
+    this.hover = true;
     this.nodeRef1.scrollLeft = this.nodeRef2.scrollLeft;
     this.nodeRef1.scrollTop = this.nodeRef2.scrollTop;
+
+    this.alignComparisonColumn();
   }
 
   /**
@@ -309,17 +331,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
         this.findDiff();
       }
 
-      const scrollTop: number = this.scrollOriginal.nativeElement.scrollTop;
-      const scrollLeft: number = this.editorNode2.nativeElement.scrollLeft;
-
-      this.scrollDiff.nativeElement.scrollTop = scrollTop;
-      this.editorNode4.nativeElement.scrollLeft = scrollLeft;
+      this.scrollToCorrectPositions();
 
       this.hover = false;
     }
-
-    this.scrollToCorrectPositions();
-
   }
 
   scrollToCorrectPositions() {
@@ -328,6 +343,18 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
     this.nodeRef4.scrollLeft = this.nodeRef2.scrollLeft;
     this.nodeRef4.scrollTop = this.nodeRef2.scrollTop;
+
+    this.alignComparisonColumn();
+  }
+
+  /**
+   * Adjust the center comparison column depending on editor scroll amount
+   */
+  alignComparisonColumn() {
+    const offsetStyle: string = "translateY(-" + this.nodeRef2.scrollTop + "px)";
+
+    this.compare1.style.transform = offsetStyle;
+    this.compare2.style.transform = offsetStyle;
   }
 
   /**
@@ -353,6 +380,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
    *
    */
   renameStuff(): void {
+
+    // todo -- lock up UI somehow !? -- while node renames stuff
+
     this.electronService.ipcRenderer.send('rename-these-files', this.getNewSourceOfTruth());
   }
 
