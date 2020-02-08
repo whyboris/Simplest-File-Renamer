@@ -141,7 +141,7 @@ button {
     overflow: hidden; // hide scrollbars
     padding-bottom: 10px; // compensate for hidden scrollbar
     pointer-events: none;
-    transform: translate(20px, 0);
+    transform: translateX(20px);
     user-select: none;
   }
 
@@ -201,7 +201,7 @@ button {
   position: absolute;
   text-align: center;
   top: calc(50vh - 50px);
-  transform: translate(-50%, 0);
+  transform: translateX(-50%);
   user-select: none;
   width: 90%;
   z-index: 6;
