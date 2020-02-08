@@ -14,6 +14,22 @@ $black:   #000000;
 $blue: #3278e7;
 $light-blue: #8db3f2;
 
+@mixin scrollBar {
+  &::-webkit-scrollbar-track {
+    background-color: $white;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: $white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-30;
+  }
+}
+
 button {
   background: $gray-15;
   border-radius: 10px;
@@ -111,11 +127,14 @@ button {
     height: calc(100vh - 81px);
     left: 0;
     margin: 0;
-    overflow-x: auto;
+    overflow-x: scroll;
+    overflow-y: scroll;
     padding: 0;
     position: absolute;
     top: 0;
     width: calc(50vw - 30px);
+
+    @include scrollBar;
   }
 
   & :nth-child(1) {
@@ -163,7 +182,7 @@ button {
 .fade-right {
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), white);
   width: 30px;
-  right: 17px;
+  right: 10px;
 }
 
 .animated {
@@ -181,7 +200,7 @@ button {
   pointer-events: none;
   position: absolute;
   text-align: center;
-  top: calc(50vh - 40px);
+  top: calc(50vh - 50px);
   transform: translate(-50%, 0);
   user-select: none;
   width: 90%;
