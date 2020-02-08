@@ -43,6 +43,9 @@
 
 </div>
 
+<!-- =========================================================================================== -->
+<!-- FADE OUT AROUND COMPARISON ICONS -->
+
 <div class="fade-out fade-center-left">
 </div>
 
@@ -55,6 +58,9 @@
 <div class="instructions" *ngIf="sourceOfTruth.length === 0">
   Drag & Drop files here
 </div>
+
+<!-- =========================================================================================== -->
+<!-- BUTTONS ON THE BOTTOM -->
 
 <button
   *ngIf="mode === 'edit'"
@@ -94,6 +100,8 @@
   <app-icon [icon]="'icon-restart'"></app-icon>
 </button>
 
+<!-- =========================================================================================== -->
+<!-- REPORT WHEN RENAMING IS DONE -->
 
 <div
   class="rename-report"
