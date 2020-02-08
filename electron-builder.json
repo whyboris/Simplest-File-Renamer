@@ -1,7 +1,7 @@
 {
-  "productName": "simplest-file-renamer",
+  "productName": "Simplest File Renamer",
   "appId": "com.simplestfilerenamer.simplestfilerenamer",
-  "copyright": "Copyright © 2019 Boris Yakubchik",
+  "copyright": "Copyright © 2020 Boris Yakubchik",
   "directories": {
     "output": "release/"
   },
