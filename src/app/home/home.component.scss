@@ -140,7 +140,6 @@ button {
   & :nth-child(1) {
     overflow: hidden; // hide scrollbars
     padding-bottom: 10px; // compensate for hidden scrollbar
-    pointer-events: none;
     transform: translateX(20px);
     user-select: none;
   }
@@ -152,7 +151,7 @@ button {
 }
 
 .rename-overlay {
-  pointer-events: none !important;
+  pointer-events: none;
   user-select: none;
 }
 

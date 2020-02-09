@@ -28,7 +28,10 @@
 
 <div
   class="rename-container rename-overlay animated"
-  [ngStyle]="{ opacity: mode === 'review' ? 0 : (hover ? 0 : 1) }"
+  [ngStyle]="{
+    'opacity': hover ? 0 : 1,
+    'display': mode === 'review' ? 'none' : 'initial'
+  }"
 >
 
   <div #editor3>
