@@ -34,7 +34,7 @@
     ]
   },
   "linux": {
-    "icon": "dist",
+    "icon": "src/assets/favicon.icns",
     "target": [
       "AppImage"
     ]
