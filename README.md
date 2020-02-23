@@ -10,6 +10,10 @@ Rename your files directly or with your favorite text editor, making use of all 
 
 Works on *Windows*, *Mac*, and *Linux* :tada:
 
+## Download
+
+The download links for all platforms are located on the app's [public webpage](https://yboris.dev/renamer/)
+
 ## License
 
 This software was built on top of [`angular-electron`](https://github.com/maximegris/angular-electron) by [Maxime GRIS](https://github.com/maximegris). It carries an [_MIT_ license](LICENSE).
@@ -24,6 +28,8 @@ Main dependencies in use:
 | Angular-CLI | v9.0.1  | February 2020 |         |
 | Electron    | v8.0.0   | February 2020 | (internally uses Node v12.13.0 and Chromium 80) |
 | Electron Builder | v22.3.2 | February 2020 |     |
+
+Once you install `node` and `npm` just `npm install` and `npm start` in your terminal :wink:
 
 ## Thank you
 
