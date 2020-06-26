@@ -22,12 +22,12 @@ This software was built on top of [`angular-electron`](https://github.com/maxime
 
 Main dependencies in use:
 
-| Library     | Version  | Date         | Comment |
-| ----------- | -------- | -----------  | ------- |
-| Angular     | v9.0.0  | February 2020 |         |
-| Angular-CLI | v9.0.1  | February 2020 |         |
-| Electron    | v8.0.0   | February 2020 | (internally uses Node v12.13.0 and Chromium 80) |
-| Electron Builder | v22.3.2 | February 2020 |     |
+| Library          | Version  | Date       | Comment |
+| ---------------- | -------- | ---------- | ------- |
+| Angular          | v10.0.0  | June 2020  |         |
+| Angular-CLI      | v10.0.0  | June 2020  |         |
+| Electron         |  v9.0.0  | June 2020  | (internally uses Node v12.14.1 and Chromium 83) |
+| Electron Builder | v22.7.0  | June 2020  |         |
 
 Once you install `node` and `npm` just `npm install` and `npm start` in your terminal :wink:
 

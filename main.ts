@@ -228,8 +228,7 @@ ipc.on('open-txt-file', function (event, files: string): void {
 
     console.log('file written');
 
-    shell.openItem(pathToTempTXT); // normalize because on windows, the path sometimes is mixing `\` and `/`
-
+    shell.openPath(pathToTempTXT); // normalize because on windows, the path sometimes is mixing `\` and `/`
 
   });
 
