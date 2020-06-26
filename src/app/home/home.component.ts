@@ -126,7 +126,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.electronService.ipcRenderer.send('just-started');
 
     this.electronService.ipcRenderer.on('file-chosen', (event, filePath: string[]) => {
-      this.addToFileList(filePath);
+      this.addToFileList(filePath.sort()); // sort alphabetically
     });
 
     this.electronService.ipcRenderer.on('txt-file-updated', (event, newText: string) => {
@@ -191,7 +191,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
           }
 
           if (this.mode === 'edit') {
-            this.addToFileList(fileList);
+            this.addToFileList(fileList.sort()); // sort alphabetically
           }
         }
       }
