@@ -65,7 +65,7 @@ function createWindow() {
   win.on('close', () => {
     const windowSizeAndPosition: WindowSettings = win.getBounds();
 
-    settings.set('app-location', windowSizeAndPosition);
+    settings.setSync('app-location', windowSizeAndPosition);
   });
 
 }
@@ -282,7 +282,7 @@ function getWindowSettings(): WindowSettings {
     height: 300,
   };
 
-  const savedSettings = settings.get('app-location');
+  const savedSettings = settings.getSync('app-location');
 
   // Make sure the app isn't off-screen (perhaps due to monitor change)
   if (    savedSettings
