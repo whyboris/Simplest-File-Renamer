@@ -6,7 +6,7 @@ Rename your files directly or with your favorite text editor, making use of all 
 
 ## About
 
-*Simplest File Renamer* was created by [Boris Yakubchik](https://videohubapp.com/about.html). It uses _Angular_ and _Electron_.
+*Simplest File Renamer* was created by [Boris Yakubchik](https://videohubapp.com/en/about). It uses _Angular_ and _Electron_.
 
 Works on *Windows*, *Mac*, and *Linux* :tada:
 
