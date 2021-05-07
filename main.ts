@@ -147,6 +147,15 @@ ipc.on('rename-these-files', function (event, filesToRename: RenameObject[]): vo
   angularApp.sender.send('renaming-report', results);
 });
 
+function fileExistsWithCaseSync(filepath) {
+  const dir: string = path.dirname(filepath);
+  if (dir === '/' || dir === '.') return true;
+  const filenames = fs.readdirSync(dir); // add return type?
+  if (filenames.indexOf(path.basename(filepath)) === -1) {
+      return false;
+  }
+  return fileExistsWithCaseSync(dir);
+}
 
 function renameThisFile(file: RenameObject): RenamedObject {
 
@@ -186,7 +195,7 @@ function renameThisFile(file: RenameObject): RenamedObject {
   let errMsg: string;
 
   // check if already exists first
-  if (fs.existsSync(newName)) {
+  if (fileExistsWithCaseSync(newName)) {
     result = 'error';
     errMsg = 'file name exists';
   } else {
