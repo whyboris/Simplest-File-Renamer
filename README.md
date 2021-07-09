@@ -24,10 +24,12 @@ Main dependencies in use:
 
 | Library          | Version   | Date           | Comment |
 | ---------------- | --------- | -------------- | ------- |
-| Angular          | v12.0.0   | May  2021      |         |
-| Angular-CLI      | v12.0.0   | May  2021      |         |
-| Electron         | v12.0.7   | May 2020       | (internally uses Node `v14.16.0` and Chromium 89) |
-| Electron Builder | v22.10.5  | May 2020       |         |
+| Angular          | v12.1.1   | July 2021      |         |
+| Angular-CLI      | v12.1.1   | July 2021      |         |
+| Electron         | v13.1.6   | July 2021      | (internally uses Node `v14.16.0` and Chromium 91) |
+| Electron Builder | v22.11.7  | July 2021      |         |
+
+Needs Node 14 or newer.
 
 Once you install `node` and `npm` just `npm install` and `npm start` in your terminal to develop, `npm run electron` to build :wink:
 
