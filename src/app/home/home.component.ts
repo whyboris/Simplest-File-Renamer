@@ -98,6 +98,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.hover = !this.hover;
   }
 
+  // TODO - see if eslint complains
   // tslint:disable-next-line: member-ordering
   keyBindings: any = {
     tab: {

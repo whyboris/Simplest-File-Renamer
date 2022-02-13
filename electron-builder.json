@@ -1,7 +1,7 @@
 {
   "productName": "Simplest File Renamer",
   "appId": "com.simplestfilerenamer.simplestfilerenamer",
-  "copyright": "Copyright © 2020 Boris Yakubchik",
+  "copyright": "Copyright © 2022 Boris Yakubchik",
   "directories": {
     "output": "release/"
   },
@@ -18,8 +18,7 @@
     "!angular.json",
     "!_config.yml",
     "!karma.conf.js",
-    "!tsconfig.json",
-    "!tslint.json"
+    "!tsconfig.json"
   ],
   "win": {
     "icon": "src/assets/favicon",
