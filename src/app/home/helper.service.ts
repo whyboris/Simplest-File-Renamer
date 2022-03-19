@@ -67,4 +67,21 @@ export class HelperService {
     return adjusted;
   }
 
+  /**
+   * Natural sort a list of strings, mutates array and return sorted array
+   * @param array
+   */
+  public natural_sort(array) {
+    // using `localeCompare()` rather than implementing from scratch
+    // https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+    // https://fuzzytolerance.info/blog/2019/07/19/The-better-way-to-do-natural-sort-in-JavaScript/
+    array.sort((a, b) =>
+      a.localeCompare(b, navigator.languages[0] || navigator.language, {
+        numeric: true,
+        ignorePunctuation: true,
+      })
+    );
+    return array;
+  }
+
 }
