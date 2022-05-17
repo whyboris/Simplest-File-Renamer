@@ -22,12 +22,14 @@ This software was built on top of [`angular-electron`](https://github.com/maxime
 
 Main dependencies in use:
 
-| Library          | Version  | Date           | Comment |
-| ---------------- | -------- | -------------- | ------- |
-| Angular          | v11.0.2  | November 2020  |         |
-| Angular-CLI      | v11.0.2  | November 2020  |         |
-| Electron         | v11.0.0  | November 2020  | (internally uses Node v12.18.3 and Chromium 87) |
-| Electron Builder | v22.9.1  | November 2020  |         |
+| Library          | Version   | Date           | Comment |
+| ---------------- | --------- | -------------- | ------- |
+| Angular          | v13.2.2   | Feb 2022       |         |
+| Angular-CLI      | v13.2.3   | Feb 2022       |         |
+| Electron         | v17.0.0   | Feb 2022       | (internally uses Node `v16.13.0` and Chromium 98) |
+| Electron Builder | v22.14.13 | Feb 2022       |         |
+
+Needs Node 14 or newer.
 
 Once you install `node` and `npm` just `npm install` and `npm start` in your terminal to develop, `npm run electron` to build :wink:
 

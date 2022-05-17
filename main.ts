@@ -34,6 +34,7 @@ function createWindow() {
     minHeight: 200,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false
     },
   });
 
@@ -120,6 +121,17 @@ const pathToAppData = app.getPath('appData');
 ipc.on('just-started', function (event) {
   console.log('just started !!!');
   angularApp = event;
+
+  // parse files from command line
+  var args = process.argv.slice(1);
+  var filePaths = args.filter(function (val, index, array) {
+    if (!fs.existsSync(val)) return false;
+    return fs.lstatSync(val).isFile();
+  });
+  console.log("filePaths from CLI:", filePaths);
+  if (filePaths.length) {
+    angularApp.sender.send("file-chosen", filePaths);
+  }
 });
 
 ipc.on('choose-file', function (event) {
