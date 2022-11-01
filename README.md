@@ -24,10 +24,10 @@ Main dependencies in use:
 
 | Library          | Version   | Date           | Comment |
 | ---------------- | --------- | -------------- | ------- |
-| Angular          | v13.2.2   | Feb 2022       |         |
-| Angular-CLI      | v13.2.3   | Feb 2022       |         |
-| Electron         | v17.0.0   | Feb 2022       | (internally uses Node `v16.13.0` and Chromium 98) |
-| Electron Builder | v22.14.13 | Feb 2022       |         |
+| Angular          | v14.2.7   | Nov 2022       |         |
+| Angular-CLI      | v14.2.7   | Nov 2022       |         |
+| Electron         | v21.2.1   | Nov 2022       | (internally uses Node `v16.16.0` and Chromium 106) |
+| Electron Builder | v23.6.0   | Nov 2022       |         |
 
 Needs Node 14 or newer.
 
