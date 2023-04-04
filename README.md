@@ -24,10 +24,10 @@ Main dependencies in use:
 
 | Library          | Version   | Date           | Comment |
 | ---------------- | --------- | -------------- | ------- |
-| Angular          | v14.2.7   | Nov 2022       |         |
-| Angular-CLI      | v14.2.7   | Nov 2022       |         |
-| Electron         | v21.2.1   | Nov 2022       | (internally uses Node `v16.16.0` and Chromium 106) |
-| Electron Builder | v23.6.0   | Nov 2022       |         |
+| Angular          | v15.2.4   | Feb 2022       |         |
+| Angular-CLI      | v15.2.4   | Feb 2022       |         |
+| Electron         | v22.3.2   | Feb 2023       | (internally uses Node `v16.17.1` and Chromium 108) Do not upgrade because [version `23` no longer works with Windows 7](https://www.electronjs.org/blog/windows-7-to-8-1-deprecation-notice) |
+| Electron Builder | v23.6.0   | Feb 2022       |         |
 
 Needs Node 14 or newer.
 
