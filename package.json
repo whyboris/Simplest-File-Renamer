@@ -49,7 +49,7 @@
     "@types/quill": "2.0.10",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
-    "electron": "22.3.2",
+    "electron": "22.3.24",
     "electron-builder": "23.6.0",
     "electron-reload": "1.5.0",
     "npm-run-all": "4.1.5",
