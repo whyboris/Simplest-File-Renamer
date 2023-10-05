@@ -34,7 +34,7 @@
     "path": "0.12.7"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "15.2.4",
+    "@angular-devkit/build-angular": "15.2.10",
     "@angular-eslint/builder": "15.2.1",
     "@angular/cli": "15.2.4",
     "@angular/common": "15.2.5",
