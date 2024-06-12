@@ -1,12 +1,14 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
+import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 
 import * as path from 'path';
 import * as QuillRef from './quill';
-import Quill from 'quill';
+import type Quill from 'quill';
 
 import { ElectronService } from '../services';
 
-import { SourceOfTruth, RenameObject, RenamedObject, defaultOptions } from './interfaces';
+import { defaultOptions } from './interfaces';
+import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
 import { HelperService } from './helper.service';
 

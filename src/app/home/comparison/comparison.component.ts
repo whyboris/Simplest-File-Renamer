@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { RenamedObject, RenameObject } from '../interfaces';
+import type { RenamedObject, RenameObject } from '../interfaces';
 
 @Component({
   selector: 'app-comparison',
