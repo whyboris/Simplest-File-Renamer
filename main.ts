@@ -138,11 +138,35 @@ ipc.on('choose-file', function (event) {
   });
 });
 
+ipc.on('open-folder-dialog', function (event) {
+  dialog.showOpenDialog(win, {
+    properties: ['openDirectory', 'multiSelections']
+  }).then(result => {
+    console.log(result);
+    const filePath: string[] = result.filePaths;
+    if (filePath.length) {
+      event.sender.send('file-chosen', filePath);
+    }
+  }).catch(err => {
+    console.log('choose-folder: this should not happen!');
+    console.log(err);
+  });
+});
+
 ipc.on('rename-these-files', function (event, filesToRename: RenameObject[]): void {
   console.log('renaming!!!');
   console.log(filesToRename);
 
-  const results: RenamedObject[] = filesToRename.map(element => renameThisFile(element));
+  const sortedFilesToRename: RenameObject[] = filesToRename
+  .slice()
+  .sort((a, b) => {
+    const depthA = path.resolve(a.path).split(path.sep).length;
+    const depthB = path.resolve(b.path).split(path.sep).length;
+
+    return depthB - depthA;
+  });
+
+  const results: RenamedObject[] = sortedFilesToRename.map(element => renameThisFile(element));
 
   console.log(results);
   angularApp.sender.send('renaming-report', results);
@@ -238,7 +262,7 @@ ipc.on('open-txt-file', function (event, files: string): void {
 let lastModified: number = 0;
 
 /**
- * Check if file has been edited
+ * Check if file/folder has been edited
  * if so, send its contents back to the app
  */
 ipc.on('app-back-in-focus', function (event): void {
