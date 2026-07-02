@@ -1,11 +1,21 @@
+const fs = require('fs');
+
 const { contextBridge, webUtils, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('process', process)
+contextBridge.exposeInMainWorld('process', process);
 
 contextBridge.exposeInMainWorld('myAPI', {
   getPathForFile: (file) => {
     const path = webUtils.getPathForFile(file);
     return path;
+  },
+  fsStatSync: (file) => {
+    const fsData = fs.statSync(file);
+    const response = {
+      isFile: fsData.isFile(),
+      isDirectory: fsData.isDirectory(),
+    }
+    return response;
   }
 });
 

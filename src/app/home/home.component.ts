@@ -246,10 +246,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
     files.forEach((file: string) => {
 
       const currentFile = path.parse(file);
-      const stats = this.electronService.fs.statSync(file);
-      const isDirectory = stats.isDirectory();
+      const response = (window as any).myAPI.fsStatSync(file);
 
-      if (stats.isFile() || isDirectory) {
+      const isDirectory = response.isDirectory;
+
+      if (response.isFile || isDirectory) {
 
         const filename = isDirectory ? currentFile.base : currentFile.name;
         const extension = isDirectory ? '' : currentFile.ext;
@@ -372,7 +373,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * Open system dialog for adding new folder or folders
    */
   addFolder() {
-    this.electronService.ipcRenderer.send('open-folder-dialog');
+    (window as any).myElectron.sendToMain('open-folder-dialog');
   }
   /**
    * Open the filenames/foldernames with system's default .txt editor
