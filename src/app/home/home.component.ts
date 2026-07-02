@@ -2,8 +2,7 @@ import { Component, HostListener, ViewChild } from '@angular/core';
 import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 
 import * as path from 'path';
-import * as QuillRef from './quill';
-import type Quill from 'quill';
+import Quill from 'quill';
 
 import { defaultOptions } from './interfaces';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
@@ -203,10 +202,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     const readOnly = JSON.parse(JSON.stringify(defaultOptions));
     readOnly.readOnly = true;
     customOptions.modules.keyboard.bindings = this.keyBindings;
-    this.editor1 = new QuillRef.Quill(this.editorNode1.nativeElement, readOnly);
-    this.editor2 = new QuillRef.Quill(this.editorNode2.nativeElement, defaultOptions);
-    this.editor3 = new QuillRef.Quill(this.editorNode3.nativeElement, readOnly);
-    this.editor4 = new QuillRef.Quill(this.editorNode4.nativeElement, readOnly);
+    this.editor1 = new Quill(this.editorNode1.nativeElement, readOnly);
+    this.editor2 = new Quill(this.editorNode2.nativeElement, defaultOptions);
+    this.editor3 = new Quill(this.editorNode3.nativeElement, readOnly);
+    this.editor4 = new Quill(this.editorNode4.nativeElement, readOnly);
 
     this.nodeRef1 = this.editorNode1.nativeElement;
     this.nodeRef2 = this.editorNode2.nativeElement;

@@ -25,5 +25,4 @@ export const defaultOptions = {
   },
   readOnly: false,
   theme: 'bubble',
-  scrollingContainer: '#scrollSelector'
 };
