@@ -61,7 +61,7 @@
 </div>
 
 <div class="instructions" *ngIf="sourceOfTruth.length === 0">
-  Drag & Drop files here
+  Drag & Drop files and/or folders here
 </div>
 
 <!-- =========================================================================================== -->
@@ -69,10 +69,21 @@
 
 <button
   *ngIf="mode === 'edit'"
-  class="button-left"
+  class="button-add button-add-files"
   (click)="addFile()"
   title="Add files"
 >
+  <app-icon [icon]="'icon-file'"></app-icon>
+  <app-icon [icon]="'icon-add'"></app-icon>
+</button>
+
+<button
+  *ngIf="mode === 'edit'"
+  class="button-add button-add-folders"
+  (click)="addFolder()"
+  title="Add folders"
+>
+  <app-icon [icon]="'icon-folder'"></app-icon>
   <app-icon [icon]="'icon-add'"></app-icon>
 </button>
 

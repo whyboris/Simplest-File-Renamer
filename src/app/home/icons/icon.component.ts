@@ -7,7 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class IconComponent {
 
-  @Input() icon: string;
+  @Input() icon!: string;
+  @Input() overlayIcon?: string;
 
   constructor() { }
 

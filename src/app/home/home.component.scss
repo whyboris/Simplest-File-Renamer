@@ -68,6 +68,29 @@ button {
   }
 }
 
+.button-add {
+  width: 72px;
+  height: 40px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.button-add-files {
+  left: 20px;
+}
+
+.button-add-folders {
+  left: 102px;
+}
+
+.button-add app-icon {
+  width: 15px;
+  height: 15px;
+}
+
 .button-left {
   left: 20px;
 }

@@ -220,9 +220,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Add files to current list
-   * 1) don't add unless it's a file not on the list
-   * 2) append _input_ and _output_ with new filename
+   * Add files/folders to current list
+   * 1) don't add unless it's a file/folder not on the list
+   * 2) append _input_ and _output_ with new filename/foldername
    * 3) reload the diff view
    * @param files
    */
@@ -248,17 +248,21 @@ export class HomeComponent implements AfterViewInit, OnInit {
     files.forEach((file: string) => {
 
       const currentFile = path.parse(file);
+      const stats = this.electronService.fs.statSync(file);
+      const isDirectory = stats.isDirectory();
 
-      if (currentFile.ext) { // only add if extension exists (else it's a folder)
+      if (stats.isFile() || isDirectory) {
+
+        const filename = isDirectory ? currentFile.base : currentFile.name;
+        const extension = isDirectory ? '' : currentFile.ext;
 
         let fileAlreadyAdded: boolean = false;
 
-        // Validate the file hasn't been added yet
         this.sourceOfTruth.forEach((element) => {
           if (
-               element.filename  === currentFile.name
+               element.filename  === filename
             && element.path      === currentFile.dir
-            && element.extension === currentFile.ext
+            && element.extension === extension
           ) {
             fileAlreadyAdded = true;
           }
@@ -267,13 +271,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
         if (!fileAlreadyAdded) {
 
           this.sourceOfTruth.push({
-            extension: currentFile.ext,
-            filename: currentFile.name,
+            extension: extension,
+            filename: filename,
             path: currentFile.dir,
           });
 
-          newInput.ops.push({ insert: currentFile.name + '\n' });
-          newOutput.ops.push({ insert: currentFile.name + '\n' });
+          newInput.ops.push({ insert: filename + '\n' });
+          newOutput.ops.push({ insert: filename + '\n' });
         }
       }
     });
@@ -366,9 +370,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
   addFile() {
     this.electronService.ipcRenderer.send('choose-file');
   }
-
+   /**
+   * Open system dialog for adding new folder or folders
+   */
+  addFolder() {
+    this.electronService.ipcRenderer.send('open-folder-dialog');
+  }
   /**
-   * Open the filenames with system's default .txt editor
+   * Open the filenames/foldernames with system's default .txt editor
    */
   openTXT() {
     this.editingInTXT = true;
