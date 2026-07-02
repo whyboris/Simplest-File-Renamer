@@ -5,8 +5,6 @@ import * as path from 'path';
 import * as QuillRef from './quill';
 import type Quill from 'quill';
 
-import { ElectronService } from '../services';
-
 import { defaultOptions } from './interfaces';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
@@ -89,7 +87,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.appInFocus = true;
     if (this.editingInTXT && this.mode === 'edit') {
       // if user is returning to window, they may have edited the txt file
-      this.electronService.ipcRenderer.send('app-back-in-focus', undefined);
+      (window as any).myElectron.sendToMain('app-back-in-focus', undefined);
     }
   }
 
@@ -118,7 +116,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
   };
 
   constructor(
-    public electronService: ElectronService,
     public helperService: HelperService,
   ) { }
 
@@ -126,13 +123,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
     // Only contains event listeners for node messages
 
-    this.electronService.ipcRenderer.send('just-started');
+    (window as any).myElectron.sendToMain('just-started');
 
-    this.electronService.ipcRenderer.on('file-chosen', (event, filePath: string[]) => {
+    (window as any).myElectron.receiveFromMain('file-chosen', (filePath: string[]) => {
       this.addToFileList(filePath.sort()); // sort alphabetically
     });
 
-    this.electronService.ipcRenderer.on('txt-file-updated', (event, newText: string) => {
+    (window as any).myElectron.receiveFromMain('txt-file-updated', (newText: string) => {
       const newOps: any = {
         ops: [{
           insert: newText
@@ -142,7 +139,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
       this.findDiff();
     });
 
-    this.electronService.ipcRenderer.on('renaming-report', (event, report: RenamedObject[]) => {
+    (window as any).myElectron.receiveFromMain('renaming-report', (report: RenamedObject[]) => {
 
       this.mode = 'review';
 
@@ -189,8 +186,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
           const fileList: string[] = [];
 
-          for (let i = 0; i < fileListObject.length; i++) {
-            fileList.push(fileListObject[i].path);
+          for (const file of fileListObject) {
+            const filePath = (window as any).myAPI.getPathForFile(file);
+            fileList.push(filePath);
           }
 
           if (this.mode === 'edit') {
@@ -368,7 +366,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * Open system dialog for adding new file or files
    */
   addFile() {
-    this.electronService.ipcRenderer.send('choose-file');
+    (window as any).myElectron.sendToMain('choose-file');
   }
    /**
    * Open system dialog for adding new folder or folders
@@ -381,7 +379,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    */
   openTXT() {
     this.editingInTXT = true;
-    this.electronService.ipcRenderer.send('open-txt-file', this.editor2.getText());
+    (window as any).myElectron.sendToMain('open-txt-file', this.editor2.getText());
   }
 
   /**
@@ -395,7 +393,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
     // todo -- lock up UI somehow !? -- while node renames stuff
 
-    this.electronService.ipcRenderer.send('rename-these-files', this.getNewSourceOfTruth());
+    (window as any).myElectron.sendToMain('rename-these-files', this.getNewSourceOfTruth());
   }
 
   /**
