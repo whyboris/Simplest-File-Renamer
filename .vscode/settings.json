@@ -1,0 +1,11 @@
+{
+  "files.exclude": {
+    "**/*.js.map": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/release": true,
+    "main.js": true,
+    "node/*.js": true,
+    "src/**/*.js": true,
+  }
+}
