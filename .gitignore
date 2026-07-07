@@ -2,13 +2,8 @@
 
 /node_modules
 
-/dist
-/release
-/tmp
+.DS_Store
+Thumbs.db
 
 /src/**/*.js
 *.js.map
-main.js
-
-.DS_Store
-Thumbs.db
