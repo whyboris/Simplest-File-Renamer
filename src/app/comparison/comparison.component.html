@@ -3,7 +3,7 @@
     @if (icon.result === 'error') {
 
       <div class="icon show-error">
-        <app-icon [icon]="'icon-error'"></app-icon>
+        <app-icon [icon]="'icon-error'" />
         <span class="error-text">
           {{ icon.error }}
         </span>
@@ -13,12 +13,12 @@
 
       @if (icon.result === 'unchanged') {
         <div class="whiteout">
-          <app-icon class="icon" [icon]="'icon-equals'"></app-icon>
+          <app-icon class="icon" [icon]="'icon-equals'" />
         </div>
       }
 
       <div class="icon">
-        <app-icon [icon]="getIcon(icon)"></app-icon>
+        <app-icon [icon]="getIcon(icon)" />
       </div>
     }
   </div>

@@ -42,10 +42,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
   @ViewChild('comparison1', { static: true }) comparison1: ElementRef; // middle bar with comparison icons
   @ViewChild('comparison2', { static: true }) comparison2: ElementRef; // middle bar with comparison icons
 
-  editor1: Quill;
-  editor2: Quill;
-  editor3: Quill;
-  editor4: Quill;
+  editor1: Quill; // left side
+  editor2: Quill; // right side - editable
+  editor3: Quill; // left side diff
+  editor4: Quill; // right side diff
 
   nodeRef1: HTMLElement;
   nodeRef2: HTMLElement;
@@ -135,18 +135,24 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.findDiff();
   };
 
-
-  // needs to be above `keyBindings` else maybe it doesn't work?
+  // needs to be above `keyBindings`
   toggler = () => {
     this.findDiff();
     this.scrollToCorrectPositions();
-    this.hover = !this.hover;
+
+    setTimeout(() => {
+      this.hover = false;
+      this.cd.detectChanges();
+    }, 0);
+
+    return false; // prevents `Enter` key from creating a new line
   }
 
+  // any of the three keys make the app show the diff
   keyBindings: any = {
-    tab:   { key: 9,  handler: this.toggler },
-    enter: { key: 13, handler: this.toggler },
-    esc:   { key: 27, handler: this.toggler },
+    customEnter: { key: 'Enter', handler: this.toggler },
+    esc:         { key: 27,      handler: this.toggler },
+    tab:         { key: 9,       handler: this.toggler },
   };
 
   constructor(
@@ -171,9 +177,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     const customOptions = defaultOptions;
     const readOnly = JSON.parse(JSON.stringify(defaultOptions));
     readOnly.readOnly = true;
-    customOptions.modules.keyboard.bindings = this.keyBindings;
+    (customOptions.modules as any).keyboard.bindings = this.keyBindings;
+
     this.editor1 = new Quill(this.editorNode1.nativeElement, readOnly);
-    this.editor2 = new Quill(this.editorNode2.nativeElement, defaultOptions);
+    this.editor2 = new Quill(this.editorNode2.nativeElement, customOptions);
     this.editor3 = new Quill(this.editorNode3.nativeElement, readOnly);
     this.editor4 = new Quill(this.editorNode4.nativeElement, readOnly);
 

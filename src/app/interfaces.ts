@@ -1,3 +1,5 @@
+import type { QuillOptions } from 'quill';
+
 export interface SourceOfTruth {
   path: string;
   filename: string;
@@ -25,7 +27,7 @@ export interface ParsedPath {
     root: string;
 }
 
-export const defaultOptions = {
+export const defaultOptions: QuillOptions = {
   formats: null,
   modules: {
     toolbar: null,
