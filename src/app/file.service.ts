@@ -72,7 +72,8 @@ export class FileService {
       filename: file.filename,
       extension: file.extension,
       newFilename: file.newFilename,
-      result: undefined, // TODO -- fix the red underline here
+      result: undefined,
+      error: "",
     };
 
     if (file.filename === file.newFilename) {
@@ -101,10 +102,11 @@ export class FileService {
 
     let response: RustRenameResult = { msg: '', result: '' };
 
-    await invoke<RustRenameResult>('rename', { 'old': original, 'new': newName }).then((rustResponse: RustRenameResult) => {
-      console.log(rustResponse);
-      response = rustResponse;
-    });
+    await invoke<RustRenameResult>('rename', { 'old': original, 'new': newName })
+      .then((rustResponse: RustRenameResult) => {
+        console.log(rustResponse);
+        response = rustResponse;
+      });
 
     renamedObject.result = response.result as RenameResult;
 
