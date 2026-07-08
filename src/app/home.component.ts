@@ -14,7 +14,7 @@ import { IconComponent } from './icons/icon.component';
 import { SvgDefinitionsComponent } from './icons/svg-definitions.component';
 
 import { defaultOptions } from './interfaces';
-import type { Delta } from 'quill';
+import type { Delta, Op } from 'quill';
 import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
@@ -129,11 +129,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
       }
     }
 
-    const newOps: any = {
-      ops: [{
-        insert: newText
-      }]
-    };
+    const newOps: Op[] = [{ insert: newText }];
+
     this.editor2.setContents(newOps);
     this.findDiff();
   };
@@ -204,17 +201,17 @@ export class HomeComponent implements AfterViewInit, OnInit {
     const output = this.editor2.getContents();
 
     // clean up remove the `\n` at the beginning
-    const newInput = { ops: [] };
+    const newInput: Op[] = [];
     input.ops.forEach((element) => {
       if (element.insert !== '\n') { // do not include the first line
-        newInput.ops.push(element);
+        newInput.push(element);
       }
     });
 
-    const newOutput = { ops: [] };
+    const newOutput: Op[] = [];
     output.ops.forEach((element) => {
       if (element.insert !== '\n') { // do not include the first line
-        newOutput.ops.push(element);
+        newOutput.push(element);
       }
     });
 
@@ -254,14 +251,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
             path: currentFile.dir,
           });
 
-          newInput.ops.push({ insert: filename + '\n' });
-          newOutput.ops.push({ insert: filename + '\n' });
+          newInput.push({ insert: filename + '\n' });
+          newOutput.push({ insert: filename + '\n' });
         }
       }
     };
 
-    this.editor1.setContents(<any>newInput);
-    this.editor2.setContents(<any>newOutput);
+    this.editor1.setContents(newInput);
+    this.editor2.setContents(newOutput);
 
     this.findDiff();
 

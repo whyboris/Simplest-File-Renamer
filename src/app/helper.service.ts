@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import type { Delta } from 'quill';
+import type { Delta, Op } from 'quill';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class HelperService {
   public find_deletions(oldContent: Delta, newContent: Delta) {
     const diff = oldContent.diff(newContent);
 
-    const newOps = {
+    const newOps: { ops: Op[] } = {
       ops: []
     };
 
@@ -66,7 +66,7 @@ export class HelperService {
 
     }
 
-    const adjusted = oldContent.compose(newOps);
+    const adjusted = oldContent.compose(newOps as Delta);
 
     return adjusted;
   }
