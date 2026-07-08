@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { invoke } from '@tauri-apps/api/core';
 import { openPath } from '@tauri-apps/plugin-opener';
+import { platform } from '@tauri-apps/plugin-os';
 import { tempDir, join } from '@tauri-apps/api/path';
 
 import { ParsedPath, RenamedObject, RenameObject, RenameResult } from './interfaces';
@@ -17,17 +18,22 @@ interface RustRenameResult {
 })
 export class FileService {
 
-  constructor() { }
+  isWindows: boolean;
 
   readonly tempTextFilename = 'simplest-file-renamer-scratchpad.txt';
-
   readonly sep = "\\";
-        // sep = "/"; // on `POSIX`
+        // sep = "/"; // on `POSIX` // <--- FIX the `sep` problem; maybe with `path`
+
+  constructor() {
+    this.isWindows = platform() === 'windows' ? true : false;
+  }
 
   parse(path: string): ParsedPath {
-    // TODO -- change from `WIN` to `POSIX` somehow during / before build <------------------- FIX THIS
-
-    return this.parseWin(path);
+    if (this.isWindows) {
+      return this.parseWin(path);
+    } else {
+      return this.parsePosix(path);
+    }
   }
 
   async renameTheseFiles(filesToRename: RenameObject[]): Promise<RenamedObject[]> {
