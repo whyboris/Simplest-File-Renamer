@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import type { Delta, Op } from 'quill';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,7 @@ export class HelperService {
    * @param oldContent
    * @param newContent
    */
-  public find_additions(oldContent, newContent) {
+  public find_additions(oldContent: Delta, newContent: Delta) {
     const diff = oldContent.diff(newContent);
 
     for (let i = 0; i < diff.ops.length; i++) {
@@ -35,10 +37,10 @@ export class HelperService {
    * @param oldContent
    * @param newContent
    */
-  public find_deletions(oldContent, newContent) {
+  public find_deletions(oldContent: Delta, newContent: Delta) {
     const diff = oldContent.diff(newContent);
 
-    const newOps = {
+    const newOps: { ops: Op[] } = {
       ops: []
     };
 
@@ -64,7 +66,7 @@ export class HelperService {
 
     }
 
-    const adjusted = oldContent.compose(newOps);
+    const adjusted = oldContent.compose(newOps as Delta);
 
     return adjusted;
   }

@@ -14,6 +14,7 @@ import { IconComponent } from './icons/icon.component';
 import { SvgDefinitionsComponent } from './icons/svg-definitions.component';
 
 import { defaultOptions } from './interfaces';
+import type { Delta, Op, Range } from 'quill';
 import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
@@ -41,10 +42,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
   @ViewChild('comparison1', { static: true }) comparison1: ElementRef; // middle bar with comparison icons
   @ViewChild('comparison2', { static: true }) comparison2: ElementRef; // middle bar with comparison icons
 
-  editor1: Quill;
-  editor2: Quill;
-  editor3: Quill;
-  editor4: Quill;
+  editor1: Quill; // left side
+  editor2: Quill; // right side - editable
+  editor3: Quill; // left side diff
+  editor4: Quill; // right side diff
 
   nodeRef1: HTMLElement;
   nodeRef2: HTMLElement;
@@ -128,27 +129,72 @@ export class HomeComponent implements AfterViewInit, OnInit {
       }
     }
 
-    const newOps: any = {
-      ops: [{
-        insert: newText
-      }]
-    };
+    const newOps: Op[] = [{ insert: newText }];
+
     this.editor2.setContents(newOps);
     this.findDiff();
   };
 
-
-  // needs to be above `keyBindings` else maybe it doesn't work?
-  toggler = () => {
+  // needs to be above `keyBindings`
+  showDiffOnKeyPress = () => {
     this.findDiff();
     this.scrollToCorrectPositions();
-    this.hover = !this.hover;
+
+    setTimeout(() => {
+      this.hover = false;
+      this.cd.detectChanges();
+    }, 0);
+
+    return false; // prevents key from default behavior
+  }
+
+  // for the `backspace` key - to prevent removing `\n` new line
+  preserveLineBreaksBackspace = (range: Range, context: any) => {
+    // Check if it's the first line, or if the previous line is an empty line
+    if (range.index === 0 || context.prefix === '') {
+      return false; // Returning false prevents the default backspace action
+    }
+
+    if (!context.collapsed) { // if user selected a range of characters
+      const selectedText = this.editor2.getText(range.index, range.length);
+
+      if (selectedText.includes('\n')) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // for the `delete` key - to prevent removing `\n` new line
+  preserveLineBreaksDeleteKey = (range: Range, context: any) => {
+    if (!context.collapsed) { // if user selected a range of characters
+      const selectedText = this.editor2.getText(range.index, range.length);
+
+      if (selectedText.includes('\n')) {
+        return false;
+      }
+    }
+
+    // Check if it's the end of the line
+    const [line] = this.editor2.getLine(range.index);
+    const lineLength = line.length();
+    const currentLineOffset = range.index - this.editor2.getIndex(line);
+
+    // If cursor is at the very end of the line, prevent deletion to stop merging with the next line
+    if (currentLineOffset === lineLength - 1) {
+      return false;
+    }
+
+    return true;
   }
 
   keyBindings: any = {
-    tab:   { key: 9,  handler: this.toggler },
-    enter: { key: 13, handler: this.toggler },
-    esc:   { key: 27, handler: this.toggler },
+    customEnter:      { key: 'Enter',     handler: this.showDiffOnKeyPress },
+    customEsc:        { key: 'Escape',    handler: this.showDiffOnKeyPress },
+    tab:              { key: 9,           handler: this.showDiffOnKeyPress },
+    preventBackspace: { key: 'Backspace', handler: this.preserveLineBreaksBackspace },
+    preventDelete:    { key: 'Delete',    handler: this.preserveLineBreaksDeleteKey },
   };
 
   constructor(
@@ -173,9 +219,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     const customOptions = defaultOptions;
     const readOnly = JSON.parse(JSON.stringify(defaultOptions));
     readOnly.readOnly = true;
-    customOptions.modules.keyboard.bindings = this.keyBindings;
+    (customOptions.modules as any).keyboard.bindings = this.keyBindings;
+
     this.editor1 = new Quill(this.editorNode1.nativeElement, readOnly);
-    this.editor2 = new Quill(this.editorNode2.nativeElement, defaultOptions);
+    this.editor2 = new Quill(this.editorNode2.nativeElement, customOptions);
     this.editor3 = new Quill(this.editorNode3.nativeElement, readOnly);
     this.editor4 = new Quill(this.editorNode4.nativeElement, readOnly);
 
@@ -203,17 +250,17 @@ export class HomeComponent implements AfterViewInit, OnInit {
     const output = this.editor2.getContents();
 
     // clean up remove the `\n` at the beginning
-    const newInput = { ops: [] };
+    const newInput: Op[] = [];
     input.ops.forEach((element) => {
       if (element.insert !== '\n') { // do not include the first line
-        newInput.ops.push(element);
+        newInput.push(element);
       }
     });
 
-    const newOutput = { ops: [] };
+    const newOutput: Op[] = [];
     output.ops.forEach((element) => {
       if (element.insert !== '\n') { // do not include the first line
-        newOutput.ops.push(element);
+        newOutput.push(element);
       }
     });
 
@@ -253,14 +300,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
             path: currentFile.dir,
           });
 
-          newInput.ops.push({ insert: filename + '\n' });
-          newOutput.ops.push({ insert: filename + '\n' });
+          newInput.push({ insert: filename + '\n' });
+          newOutput.push({ insert: filename + '\n' });
         }
       }
     };
 
-    this.editor1.setContents(<any>newInput);
-    this.editor2.setContents(<any>newOutput);
+    this.editor1.setContents(newInput);
+    this.editor2.setContents(newOutput);
 
     this.findDiff();
 
@@ -271,8 +318,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * Generate the deletions/additions markup and render
    */
   findDiff() {
-    const oldContent = this.editor1.getContents();
-    const newContent = this.editor2.getContents();
+    const oldContent: Delta = this.editor1.getContents();
+    const newContent: Delta = this.editor2.getContents();
 
     const deleteOnly = this.helperService.find_deletions(oldContent, newContent);
     const addOnly = this.helperService.find_additions(oldContent, newContent);
