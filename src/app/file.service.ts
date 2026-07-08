@@ -18,14 +18,14 @@ interface RustRenameResult {
 })
 export class FileService {
 
-  isWindows: boolean;
-
   readonly tempTextFilename = 'simplest-file-renamer-scratchpad.txt';
-  readonly sep = "\\";
-        // sep = "/"; // on `POSIX` // <--- FIX the `sep` problem; maybe with `path`
+
+  isWindows: boolean;
+  sep: "\\" | "/";
 
   constructor() {
     this.isWindows = platform() === 'windows' ? true : false;
+    this.sep = this.isWindows ? "\\" : "/";
   }
 
   parse(path: string): ParsedPath {
