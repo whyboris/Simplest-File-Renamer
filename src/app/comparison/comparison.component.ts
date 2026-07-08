@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 import type { RenamedObject, RenameObject } from '../interfaces';
 import { IconComponent } from '../icons/icon.component';
@@ -7,6 +7,7 @@ import { IconComponent } from '../icons/icon.component';
   selector: 'app-comparison',
   templateUrl: './comparison.component.html',
   imports: [IconComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./comparison.component.scss']
 })
 export class ComparisonComponent {

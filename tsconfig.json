@@ -20,7 +20,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "typeCheckHostBindings": true,
-    "strictTemplates": false,
+    "strictTemplates": true,
     "strictNullChecks": false,
     "noImplicitAny": false
   },
