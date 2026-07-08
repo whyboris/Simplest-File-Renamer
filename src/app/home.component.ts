@@ -14,7 +14,7 @@ import { IconComponent } from './icons/icon.component';
 import { SvgDefinitionsComponent } from './icons/svg-definitions.component';
 
 import { defaultOptions } from './interfaces';
-import type { Delta, Op } from 'quill';
+import type { Delta, Op, Range } from 'quill';
 import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
@@ -136,7 +136,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   };
 
   // needs to be above `keyBindings`
-  toggler = () => {
+  showDiffOnKeyPress = () => {
     this.findDiff();
     this.scrollToCorrectPositions();
 
@@ -145,14 +145,56 @@ export class HomeComponent implements AfterViewInit, OnInit {
       this.cd.detectChanges();
     }, 0);
 
-    return false; // prevents `Enter` key from creating a new line
+    return false; // prevents key from default behavior
   }
 
-  // any of the three keys make the app show the diff
+  // for the `backspace` key - to prevent removing `\n` new line
+  preserveLineBreaksBackspace = (range: Range, context: any) => {
+    // Check if it's the first line, or if the previous line is an empty line
+    if (range.index === 0 || context.prefix === '') {
+      return false; // Returning false prevents the default backspace action
+    }
+
+    if (!context.collapsed) { // if user selected a range of characters
+      const selectedText = this.editor2.getText(range.index, range.length);
+
+      if (selectedText.includes('\n')) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // for the `delete` key - to prevent removing `\n` new line
+  preserveLineBreaksDeleteKey = (range: Range, context: any) => {
+    if (!context.collapsed) { // if user selected a range of characters
+      const selectedText = this.editor2.getText(range.index, range.length);
+
+      if (selectedText.includes('\n')) {
+        return false;
+      }
+    }
+
+    // Check if it's the end of the line
+    const [line] = this.editor2.getLine(range.index);
+    const lineLength = line.length();
+    const currentLineOffset = range.index - this.editor2.getIndex(line);
+
+    // If cursor is at the very end of the line, prevent deletion to stop merging with the next line
+    if (currentLineOffset === lineLength - 1) {
+      return false;
+    }
+
+    return true;
+  }
+
   keyBindings: any = {
-    customEnter: { key: 'Enter', handler: this.toggler },
-    esc:         { key: 27,      handler: this.toggler },
-    tab:         { key: 9,       handler: this.toggler },
+    customEnter:      { key: 'Enter',     handler: this.showDiffOnKeyPress },
+    customEsc:        { key: 'Escape',    handler: this.showDiffOnKeyPress },
+    tab:              { key: 9,           handler: this.showDiffOnKeyPress },
+    preventBackspace: { key: 'Backspace', handler: this.preserveLineBreaksBackspace },
+    preventDelete:    { key: 'Delete',    handler: this.preserveLineBreaksDeleteKey },
   };
 
   constructor(
