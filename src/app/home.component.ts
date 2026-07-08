@@ -14,6 +14,7 @@ import { IconComponent } from './icons/icon.component';
 import { SvgDefinitionsComponent } from './icons/svg-definitions.component';
 
 import { defaultOptions } from './interfaces';
+import type { Delta } from 'quill';
 import type { AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import type { SourceOfTruth, RenameObject, RenamedObject } from './interfaces';
 
@@ -271,8 +272,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * Generate the deletions/additions markup and render
    */
   findDiff() {
-    const oldContent = this.editor1.getContents();
-    const newContent = this.editor2.getContents();
+    const oldContent: Delta = this.editor1.getContents();
+    const newContent: Delta = this.editor2.getContents();
 
     const deleteOnly = this.helperService.find_deletions(oldContent, newContent);
     const addOnly = this.helperService.find_additions(oldContent, newContent);
