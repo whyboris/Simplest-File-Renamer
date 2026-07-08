@@ -2,7 +2,7 @@
   class="rename-container"
   (mouseenter)="mouseEntered()"
   (mouseleave)="mouseLeft()"
-  >
+>
 
   <div #editor1>
   </div>
@@ -12,16 +12,11 @@
     id="scrollSelector"
     (scroll)="updateScroll()"
     [style]="{ 'user-select': mode === 'review' ? 'none' : 'initial' }"
-    >
+  >
   </div>
 
-  <div
-    #comparison1
-    class="compare-icons"
-    >
-    <app-comparison
-      [files]="compareIcons"
-    ></app-comparison>
+  <div #comparison1 class="compare-icons">
+    <app-comparison [files]="compareIcons" />
   </div>
 
 </div>
@@ -32,7 +27,7 @@
     'opacity': hover ? 0 : 1,
     'display': mode === 'review' ? 'none' : 'initial'
   }"
-  >
+>
 
   <div #editor3>
   </div>
@@ -40,13 +35,8 @@
   <div #editor4>
   </div>
 
-  <div
-    #comparison2
-    class="compare-icons"
-    >
-    <app-comparison
-      [files]="compareIcons"
-    ></app-comparison>
+  <div #comparison2 class="compare-icons">
+    <app-comparison [files]="compareIcons" />
   </div>
 
 </div>
@@ -74,18 +64,18 @@
     class="button-add button-add-files"
     (click)="addFile()"
     title="Add files"
-    >
-    <app-icon [icon]="'icon-file'"></app-icon>
-    <app-icon [icon]="'icon-add'"></app-icon>
+  >
+    <app-icon [icon]="'icon-file'" />
+    <app-icon [icon]="'icon-add'" />
   </button>
 
   <button
     class="button-add button-add-folders"
     (click)="addFolder()"
     title="Add folders"
-    >
-    <app-icon [icon]="'icon-folder'"></app-icon>
-    <app-icon [icon]="'icon-add'"></app-icon>
+  >
+    <app-icon [icon]="'icon-folder'" />
+    <app-icon [icon]="'icon-add'" />
   </button>
 
   <button
@@ -93,8 +83,8 @@
     (click)="openTXT()"
     [disabled]="sourceOfTruth.length === 0"
     title="Open in text editor"
-    >
-    <app-icon [icon]="'icon-edit'"></app-icon>
+  >
+    <app-icon [icon]="'icon-edit'" />
   </button>
 
   <button
@@ -102,8 +92,8 @@
     (click)="renameStuff()"
     [disabled]="sourceOfTruth.length === 0"
     title="Rename"
-    >
-    <app-icon [icon]="'icon-checkmark'"></app-icon>
+  >
+    <app-icon [icon]="'icon-checkmark'" />
   </button>
 }
 
@@ -112,8 +102,8 @@
     style="left: 30px;"
     (click)="restart()"
     title="Restart"
-    >
-    <app-icon [icon]="'icon-restart'"></app-icon>
+  >
+    <app-icon [icon]="'icon-restart'" />
   </button>
 }
 
@@ -121,43 +111,33 @@
 <!-- REPORT WHEN RENAMING IS DONE -->
 
 @if (mode === 'review') {
-  <div
-    class="rename-report"
-    >
+  <div class="rename-report">
+
     <div class="report-item">
-      <span class='report-number'>
-        {{ finalReport.renamed }}
-      </span>
+      <span class='report-number'>{{ finalReport.renamed }}</span>
       <div class='report-icon'>
-        <app-icon [icon]="'icon-checkmark'"></app-icon>
+        <app-icon [icon]="'icon-checkmark'" />
       </div>
-      <span class="report-text">
-        renamed
-      </span>
+      <span class="report-text">renamed</span>
     </div>
+
     <div class="report-item">
-      <span class='report-number'>
-        {{ finalReport.unchanged }}
-      </span>
+      <span class='report-number'>{{ finalReport.unchanged }}</span>
       <div class='report-icon'>
-        <app-icon [icon]="'icon-equals'"></app-icon>
+        <app-icon [icon]="'icon-equals'" />
       </div>
-      <span class="report-text">
-        unchanged
-      </span>
+      <span class="report-text">unchanged</span>
     </div>
+
     <div class="report-item">
-      <span class='report-number'>
-        {{ finalReport.failed }}
-      </span>
+      <span class='report-number'>{{ finalReport.failed }}</span>
       <div class='report-icon'>
-        <app-icon [icon]="'icon-error'"></app-icon>
+        <app-icon [icon]="'icon-error'" />
       </div>
-      <span class="report-text">
-        failed
-      </span>
+      <span class="report-text">failed</span>
     </div>
+
   </div>
 }
 
-<app-svg-definitions></app-svg-definitions>
+<app-svg-definitions />
