@@ -197,7 +197,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    */
   async addToFileList(files: string[]) {
 
-    // TODO: perform sort() but with locale compare <------------------------- FIX THIS
+    const sorted = this.helperService.natural_sort(files);
 
     const input = this.editor1.getContents();
     const output = this.editor2.getContents();
@@ -217,7 +217,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
       }
     });
 
-    for (const file of files) {
+    for (const file of sorted) {
 
       const currentFile = this.fileService.parse(file);
 
@@ -263,6 +263,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.editor2.setContents(<any>newOutput);
 
     this.findDiff();
+
+    this.cd.detectChanges();
   }
 
   /**
