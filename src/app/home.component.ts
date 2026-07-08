@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { invoke } from '@tauri-apps/api/core';
@@ -82,7 +82,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  @HostListener('document:keypress', ['$event'])
+  // `keydown` rather than `keypress` to include `Delete` and `Backspace` keyboard events
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // if editor has selection & user is typing, hide the diff overlay
     if (this.mode === 'edit' && this.editor2.getSelection() !== null) {
@@ -153,6 +154,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   constructor(
     public helperService: HelperService,
     public fileService: FileService,
+    public cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -422,6 +424,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
           break;
       }
     });
+
+    this.cd.detectChanges();
   }
 
   /**
