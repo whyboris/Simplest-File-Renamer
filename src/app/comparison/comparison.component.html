@@ -1,0 +1,25 @@
+@for (icon of files(); track icon.newFilename) {
+  <div>
+    @if (icon.result === 'error') {
+
+      <div class="icon show-error">
+        <app-icon [icon]="'icon-error'"></app-icon>
+        <span class="error-text">
+          {{ icon.error }}
+        </span>
+      </div>
+
+    } @else {
+
+      @if (icon.result === 'unchanged') {
+        <div class="whiteout">
+          <app-icon class="icon" [icon]="'icon-equals'"></app-icon>
+        </div>
+      }
+
+      <div class="icon">
+        <app-icon [icon]="getIcon(icon)"></app-icon>
+      </div>
+    }
+  </div>
+}

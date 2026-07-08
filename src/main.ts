@@ -1,9 +1,8 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from "@angular/platform-browser";
+import { appConfig } from "./app/app.config";
 
-import { AppModule } from './app/app.module';
+import { HomeComponent } from "./app/home.component";
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule, {
-    preserveWhitespaces: false
-  })
-  .catch(err => console.error(err));
+bootstrapApplication(HomeComponent, appConfig).catch((err) =>
+  console.error(err),
+);

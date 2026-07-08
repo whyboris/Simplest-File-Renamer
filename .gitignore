@@ -1,14 +1,7 @@
 .angular
 
-/node_modules
-
 /dist
-/release
-/tmp
-
-/src/**/*.js
-*.js.map
-main.js
+/node_modules
 
 .DS_Store
 Thumbs.db
