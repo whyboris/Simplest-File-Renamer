@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { invoke } from '@tauri-apps/api/core';
@@ -154,6 +154,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   constructor(
     public helperService: HelperService,
     public fileService: FileService,
+    public cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -423,6 +424,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
           break;
       }
     });
+
+    this.cd.detectChanges();
   }
 
   /**
