@@ -43,8 +43,8 @@ export class FileService {
     const sortedFilesToRename: RenameObject[] = filesToRename
     .slice()
     .sort((a, b) => {
-      const depthA = (a.path).split(this.sep).length; // TODO: check that `path.resolve` is not needed
-      const depthB = (b.path).split(this.sep).length; // can use `resolve` from @tauri-apps/api/path
+      const depthA = (a.path).split(this.sep).length;
+      const depthB = (b.path).split(this.sep).length;
 
       return depthB - depthA;
     });
@@ -92,8 +92,8 @@ export class FileService {
       return renamedObject;
     }
 
-    const original: string = file.path + this.sep + file.filename + file.extension; // <----------- FIX -- used to be `path.join`
-    const newName: string = file.path + this.sep + file.newFilename + file.extension; // can use `join` from @tauri-apps/api/path
+    const original: string = await join(file.path, file.filename + file.extension);
+    const newName: string = await join(file.path, file.newFilename + file.extension);
 
     console.log('renaming file:');
     console.log(original);
