@@ -82,7 +82,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  @HostListener('document:keypress', ['$event'])
+  // `keydown` rather than `keypress` to include `Delete` and `Backspace` keyboard events
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // if editor has selection & user is typing, hide the diff overlay
     if (this.mode === 'edit' && this.editor2.getSelection() !== null) {
