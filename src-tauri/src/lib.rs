@@ -15,7 +15,7 @@ pub struct RustRenameResult {
     msg: String,
 }
 
-fn rename_result(success: bool, error: String) -> RustRenameResult {
+fn result(success: bool, error: String) -> RustRenameResult {
     if success {
         return RustRenameResult {
             result: "renamed".to_string(),
@@ -39,23 +39,23 @@ fn rename(old: &str, new: &str) -> RustRenameResult {
         match fs::rename(old, &wip) {
             Ok(_) => {
                 match fs::rename(wip, new) {
-                    Ok(_) =>           return rename_result(true, "".to_string()),
-                    Err(err) => return rename_result(false, err.to_string())
+                    Ok(_) =>           return result(true, "".to_string()),
+                    Err(err) => return result(false, err.to_string())
                 };
             },
-            Err(err) => {       return rename_result(false, err.to_string()) }
+            Err(err) => {       return result(false, err.to_string()) }
         };
     }
 
     match Path::new(new).try_exists() {
-        Ok(true) =>                    return rename_result(false, "file name already exists".to_string()),
+        Ok(true) =>                    return result(false, "file name already exists".to_string()),
         Ok(false) => {
             match fs::rename(old, new) {
-                Ok(_) =>               return rename_result(true,"".to_string()),
-                Err(err) =>     return rename_result(false, err.to_string())
+                Ok(_) =>               return result(true, "".to_string()),
+                Err(err) =>     return result(false, err.to_string())
             };
         },
-        Err(err) => {           return rename_result(false, err.to_string()) }
+        Err(err) => {           return result(false, err.to_string()) }
     };
 }
 
