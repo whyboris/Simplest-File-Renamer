@@ -37,10 +37,10 @@ export class FileService {
   }
 
   async renameTheseFiles(filesToRename: RenameObject[]): Promise<RenamedObject[]> {
-    console.log('renaming!!!');
-    console.log(filesToRename);
 
-    const sortedFilesToRename: RenameObject[] = filesToRename
+    const itemsWithIndex = filesToRename.map((item, index) => ({ ...item, idx: index }));
+
+    const sortedFilesToRename: RenameObject[] = itemsWithIndex
     .slice()
     .sort((a, b) => {
       const depthA = (a.path).split(this.sep).length;
@@ -56,8 +56,9 @@ export class FileService {
       results.push(result);
     }
 
-    console.log(results);
-    return results;
+    const unscrambled = results.sort((a, b) => a.idx - b.idx);
+
+    return unscrambled;
   }
 
   /**
@@ -68,6 +69,7 @@ export class FileService {
   async renameThisFile(file: RenameObject): Promise<RenamedObject> {
 
     const renamedObject: RenamedObject = {
+      idx: file.idx,
       path: file.path,
       filename: file.filename,
       extension: file.extension,
@@ -101,10 +103,6 @@ export class FileService {
 
     const original: string = await join(file.path, file.filename + file.extension);
     const newName: string = await join(file.path, file.newFilename + file.extension);
-
-    console.log('renaming file:');
-    console.log(original);
-    console.log(newName);
 
     let response: RustRenameResult = { msg: '', result: '' };
 

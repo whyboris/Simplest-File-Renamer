@@ -10,6 +10,7 @@ export interface RenameObject extends SourceOfTruth {
   newFilename: string;
   result?: RenameResult; // added just to avoid TS2339 in comparison.component.html
   error?: string;        // added just to avoid TS2339 in comparison.component.html
+  idx?: number; // for unscrambling the sorted array in `renameTheseFiles`
 }
 
 export type RenameResult = 'renamed' | 'unchanged' | 'error' | undefined;
