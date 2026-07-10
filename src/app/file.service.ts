@@ -93,6 +93,12 @@ export class FileService {
       return renamedObject;
     }
 
+    if (file.newFilename.includes('\\')) {
+      renamedObject.result = 'error';
+      renamedObject.error = 'can not have "\\`" in filename';
+      return renamedObject;
+    }
+
     const original: string = await join(file.path, file.filename + file.extension);
     const newName: string = await join(file.path, file.newFilename + file.extension);
 
