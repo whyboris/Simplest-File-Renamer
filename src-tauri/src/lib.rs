@@ -15,6 +15,20 @@ pub struct RustRenameResult {
     msg: String,
 }
 
+fn rename_result(success: bool, error: String) -> RustRenameResult {
+    if success {
+        return RustRenameResult {
+            result: "renamed".to_string(),
+            msg: "".to_string(),
+        };
+    } else {
+        return RustRenameResult {
+            result: "error".to_string(),
+            msg: error.to_string(),
+        };
+    }
+}
+
 #[tauri::command]
 fn rename(old: &str, new: &str) -> RustRenameResult {
 
@@ -25,58 +39,23 @@ fn rename(old: &str, new: &str) -> RustRenameResult {
         match fs::rename(old, &wip) {
             Ok(_) => {
                 match fs::rename(wip, new) {
-                    Ok(_) => {
-                        return RustRenameResult {
-                            result: "renamed".to_string(),
-                            msg: "".to_string(),
-                        };
-                    },
-                    Err(err) => {
-                        return RustRenameResult {
-                            result: "error".to_string(),
-                            msg: err.to_string(),
-                        };
-                    }
+                    Ok(_) =>           return rename_result(true, "".to_string()),
+                    Err(err) => return rename_result(false, err.to_string())
                 };
             },
-            Err(err) => {
-                return RustRenameResult {
-                    result: "error".to_string(),
-                    msg: err.to_string(),
-                };
-            }
+            Err(err) => {       return rename_result(false, err.to_string()) }
         };
     }
 
     match Path::new(new).try_exists() {
-        Ok(true) => { // filename already exists -- CAN NOT rename
-            return RustRenameResult {
-                result:  "error".to_string(),
-                msg: "file name already exists".to_string(),
-            };
-        },
-        Ok(false) => { // good news -- you can try to rename
+        Ok(true) =>                    return rename_result(false, "file name already exists".to_string()),
+        Ok(false) => {
             match fs::rename(old, new) {
-                Ok(_) => {
-                    return RustRenameResult {
-                        result: "renamed".to_string(),
-                        msg: "".to_string(),
-                    };
-                },
-                Err(err) => {
-                    return RustRenameResult {
-                        result: "error".to_string(),
-                        msg: err.to_string(),
-                    };
-                }
+                Ok(_) =>               return rename_result(true,"".to_string()),
+                Err(err) =>     return rename_result(false, err.to_string())
             };
         },
-        Err(err) => { // some error, return to user
-            return RustRenameResult {
-                result: "error".to_string(),
-                msg: err.to_string(),
-            };
-        },
+        Err(err) => {           return rename_result(false, err.to_string()) }
     };
 }
 
