@@ -24,12 +24,13 @@
     border-radius: 5px;
     border: 1px solid gray;
     display: none;
-    padding: 5px 10px;
+    padding: 8px 12px;
     transform: translate(-10px, -3px);
     position: absolute;
     text-align: center;
     white-space: nowrap;
     z-index: 21;
+    box-shadow: rgba(0, 0, 0, 0.1) 2px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   }
 
   &:hover {
