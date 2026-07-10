@@ -17,6 +17,41 @@ pub struct RustRenameResult {
 
 #[tauri::command]
 fn rename(old: &str, new: &str) -> RustRenameResult {
+
+    if old.to_lowercase() == new.to_lowercase() {
+
+        let wip = format!("{old}.WIP");
+
+        match fs::rename(old, &wip) {
+            Ok(_) => {
+
+                match fs::rename(wip, new) {
+                    Ok(_) => {
+
+                        return RustRenameResult {
+                            result: "renamed".to_string(),
+                            msg: "".to_string(),
+                        };
+                    },
+                    Err(err) => {
+
+                        return RustRenameResult {
+                            result: "error".to_string(),
+                            msg: err.to_string(),
+                        };
+                    }
+                };
+            },
+            Err(err) => {
+
+                return RustRenameResult {
+                    result: "error".to_string(),
+                    msg: err.to_string(),
+                };
+            }
+        };
+    }
+
     let file_exists_test = match Path::new(new).try_exists() {
         Ok(true) => "1",  // filename already exists -- CAN NOT rename
         Ok(false) => "2", // good news -- you can try to rename
