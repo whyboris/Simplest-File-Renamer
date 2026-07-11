@@ -8,6 +8,8 @@ import { tempDir, join } from '@tauri-apps/api/path';
 import { ParsedPath, RenamedObject, RenameObject, RenameResult } from './interfaces';
 import { BaseDirectory, readTextFile, stat, writeTextFile } from '@tauri-apps/plugin-fs';
 
+const FORBIDDEN_CHARS: string[] = [ `/`, `\\`, `|`, `?`, `*`, `:`, `>`, `<`, `"` ];
+
 interface RustRenameResult {
   msg: string;
   result: string;
@@ -62,6 +64,23 @@ export class FileService {
   }
 
   /**
+   *
+   * @param file RenameObject
+   * @returns
+   */
+  hasForbiddenChar(file: RenameObject): RenamedObject | undefined {
+    for (const char of FORBIDDEN_CHARS) {
+      if (file.newFilename.includes(char)) {
+        file.result = 'error';
+        file.error = `can not have '${char}' in a filename`;
+
+        return file as RenamedObject;
+      }
+    }
+    return undefined;
+  }
+
+  /**
    * Asks Rust to rename file, returns object indicating success or error
    * @param file RenameObject -- file to rename
    * @returns RenamedObject
@@ -89,16 +108,9 @@ export class FileService {
       return renamedObject;
     }
 
-    if (file.newFilename.includes('/')) {
-      renamedObject.result = 'error';
-      renamedObject.error = 'can not have "/" in filename';
-      return renamedObject;
-    }
-
-    if (file.newFilename.includes('\\')) {
-      renamedObject.result = 'error';
-      renamedObject.error = 'can not have "\\`" in filename';
-      return renamedObject;
+    const forbidden = this.hasForbiddenChar(file);
+    if (forbidden) {
+      return forbidden;
     }
 
     const original: string = await join(file.path, file.filename + file.extension);
